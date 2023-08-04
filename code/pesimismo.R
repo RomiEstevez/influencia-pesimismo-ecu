@@ -6,6 +6,7 @@ if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-
 if(!require(survey)) install.packages("survey", repos = "http://cran.us.r-project.org")
 if(!require(dplyr)) install.packages("dplyr", repos = "http://cran.us.r-project.org")
 if(!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+if(!require(patchwork)) install.packages("here", repos = "http://cran.us.r-project.org")
 if(!require(here)) install.packages("here", repos = "http://cran.us.r-project.org")
 
 # Cargar datos
@@ -49,10 +50,6 @@ theme_article <-
         legend.background = element_blank())
 
 # Para graficar ec_eval
-caption_graph_sit_pais<-
-  'Las cifras representan el % de personas que consideran que la situación económica del país es peor que hace 12 meses. 
-   Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org.'
-
 graph_sit_pais<-
   ggplot(ec_eval_tab,
          aes(x = as.character(year), y = ec_evalWorse, group = 1))+
@@ -60,20 +57,14 @@ graph_sit_pais<-
             color = '#2E5994')+
   geom_point(size = 2.15,
              color = '#2E5994')+
-  geom_text(aes(label = scales::percent(ec_evalWorse, accuracy = 0.1)),
-            size = 3,
-            vjust = -1.7) + 
   labs(x = '',
        y = '',
-       title = 'Pesimismo sobre la situación económica del país',
-       subtitle = '¿Considera usted que la situación económica del país es peor que hace doce meses?',
-       caption = str_wrap(caption_graph_sit_pais, 175)) +
+       title = 'Porcentaje que opina que la economía del país es peor\nque hace doce meses') +
   theme_article +
-  theme(plot.title = element_text(face = 'bold'),
-        plot.caption = element_text(size = 8))+
-  scale_y_continuous(limits = c(0, 0.7),
-                     breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-                     labels = c('0', '10', '20', '30', '40', '50', '60', '70'))
+  theme(plot.title = element_text(size = 14)) +
+  scale_y_continuous(limits = c(0.1, 1),
+                     breaks = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+                     labels = c('10', '20', '30', '40', '50', '60', '70', '80', '90', '100'))
 
   ggsave("figures/grafico_situacion_pais.png",plot = graph_sit_pais, 
          device = "png", 
@@ -82,10 +73,6 @@ graph_sit_pais<-
          dpi = 1200)
 
 # Para graficar pres_aprov_dic
-caption_pres_aprov_dic <-
-  'Las cifras representan el % de personas que desaprueban el trabajo del Presidente. 
-   Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org.'
-  
 graph_pres_aprov_dic<-
   ggplot(pres_aprov_dic_tab,
            aes(x = as.character(year), y = pres_aprov_dicNo, group = 1))+
@@ -93,25 +80,41 @@ graph_pres_aprov_dic<-
             color = '#2E5994')+
   geom_point(size = 2.15,
              color = '#2E5994')+
-  geom_text(aes(label = scales::percent(pres_aprov_dicNo, accuracy = 0.1)),
-            size = 3,
-            vjust = -1.7) + 
+  geom_vline(xintercept = 7.5, color = '#5C7C94', linetype = 'dotted')+
+  annotate('label', x = 5, y = 0.4, label = 'Gob. de Correa')+
+  geom_vline(xintercept = 2.5, color = '#5C7C94', linetype = 'dotted')+
+  annotate('label', x = 1.48, y = 0.5, label = 'Gob. de\nGutiérrez-Palacio')+
+  annotate('label', x = 8.05, y = 0.5, label = 'Gob. de\nMoreno')+
   labs(x = '',
        y = '',
-       title = 'Pesimismo sobre el trabajo del Presidente',
-       subtitle = '¿Diría usted que el trabajo que está realizando el Presidente de turno es regular, malo o pésimo?',
-       caption = str_wrap(caption_pres_aprov_dic, 175)) +
+       title = 'Pocentaje que desaprueba el trabajo del Presidente de turno') +
   theme_article +
-  theme(plot.title = element_text(face = 'bold'),
-        plot.caption = element_text(size = 8))+
-  scale_y_continuous(limits = c(0, 1),
-                     breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
-                     labels = c('0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100'))
+  theme(plot.title = element_text(size = 14)) +
+  scale_y_continuous(limits = c(0.1, 1),
+                     breaks = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+                     labels = c('10', '20', '30', '40', '50', '60', '70', '80', '90', '100'))
   
 ggsave("figures/grafico_desaprobacion_presidente.png",plot = graph_pres_aprov_dic, 
         device = "png", 
         width = 10, 
         height = 6, 
         dpi = 1200)
-  
+
+# Graph en conjunto
+caption_graph_conjunto <-
+  'Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org. El % que se ve pesimista ante la situación económica del país se calcula para quienes consideran que el escenario actual es peor que hace 12 meses. El % que se ve pesimista ante el trabajo del Ejecutivo se calcula para quienes consideran que el trabajo del Presidente de turno es regular, malo o pésimo.'
+
+graph_conjunto <-
+  graph_sit_pais + graph_pres_aprov_dic + 
+  plot_layout(ncol = 2) +
+  plot_annotation(title = 'Pesimismo económico y político de los ecuatorianos',
+                  caption = str_wrap(caption_graph_conjunto, 210),
+                  theme = theme(plot.caption = element_text(color = "grey30", hjust = 0, face = 'italic'),
+                                plot.title = element_text(hjust = 0.5, face = 'bold', size = 16)))
+
+ggsave("figures/grafico_conjunto.png",plot = graph_conjunto, 
+       device = "png", 
+       width = 12.5, 
+       height = 7, 
+       dpi = 1200)  
   
