@@ -33,26 +33,44 @@ ec_eval_tab <- svyby(formula = ~ ec_eval,
                    na.rm = T,
                    keep.names = F)
 
-# Para graficar ec_eval
-      ec_eval_tab_df <- as.data.frame(ec_eval_tab)
+# Tema para gráficos de ggplot2
+theme_article <-
+  theme_classic(base_size = 14) +
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(color = "grey20"),
+        plot.subtitle = element_text(color = "grey30"),
+        plot.caption = element_text(color = "grey30", hjust = 0, face = 'italic'),
+        legend.background = element_blank())
 
-      ec_eval_tab_df<-subset(ec_eval_tab_df, ec_eval_tab_df$ec_evalWorse=='Worse') %>% 
-          select('ec_evalSame or Better', 'year')
+# Para graficar ec_eval
+caption_graph_sit_pais<-
+  'Las cifras representan el % de personas que consideran que la situación económica del país es peor que hace 12 meses. 
+   Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org.'
 
 graph_sit_pais<-
-  ggplot(ec-eval_tab_df,
-         aes(x = year, y = perc, color = legend, group = legend))+
-  geom_line(size = 0.8)+
-  scale_color_manual(values = c('#61346B','#BF69C2'),
-                     breaks = c('Confía en el Presidente','Aprueba el trabajo del Presidente'))+
-  geom_point(size = 2.15)+
-  geom_line(aes(x = year, 
-                y = perc - 1.96*se),
-            size = 0.7,
-            color = 'grey50', 
-            linetype = 'dotted')+
-  geom_line(aes(x = year, 
-                y = perc + 1.96*se),
-            size = 0.7,
-            color = 'grey50', 
-            linetype = 'dotted')
+  ggplot(ec_eval_tab,
+         aes(x = as.character(year), y = ec_evalWorse, group = 1))+
+  geom_line(size = 1, 
+            color = '#2E5994')+
+  geom_point(size = 2.15,
+             color = '#2E5994')+
+  geom_text(aes(label = scales::percent(ec_evalWorse, accuracy = 0.1)),
+            size = 3,
+            vjust = -1.7) + 
+  labs(x = '',
+       y = '',
+       title = 'Pesimismo sobre la situación económica del país',
+       subtitle = '¿Considera usted que la situación económica del país es peor que hace doce meses?',
+       caption = str_wrap(caption_graph_sit_pais, 175)) +
+  theme_article +
+  theme(plot.title = element_text(face = 'bold'),
+        plot.caption = element_text(size = 8))+
+  scale_y_continuous(limits = c(0, 0.7),
+                     breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+                     labels = c('0', '10', '20', '30', '40', '50', '60', '70'))
+
+  ggsave("figures/grafico_situacion.pais.png",plot = graph_sit_pais, 
+         device = "png", 
+         width = 10, 
+         height = 6, 
+         dpi = 1200)
