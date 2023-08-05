@@ -25,7 +25,7 @@ dm <- svydesign(ids = ~ upm,
                 na.action = 'na.exclude',
                 data = df)
 
-# Tabulación con pesos de muestra 
+# Tabulación con pesos de muestra
 ec_eval_tab <- svyby(formula = ~ ec_eval, 
                    by = ~ year, 
                    design = dm,
@@ -40,8 +40,14 @@ econ_sit_tab <- svyby(formula = ~ econ_sit,
                       na.rm = T,
                       keep.names = F)
 
-
 pres_aprov_dic_tab <- svyby(formula = ~ pres_aprov_dic, 
+                            by = ~ year, 
+                            design = dm,
+                            FUN = svymean,
+                            na.rm = T,
+                            keep.names = F)
+
+unem_total_tab <- svyby(formula = ~ unem_total, 
                             by = ~ year, 
                             design = dm,
                             FUN = svymean,
@@ -57,7 +63,9 @@ theme_article <-
         plot.caption = element_text(color = "grey30", hjust = 0, face = 'italic'),
         legend.background = element_blank())
 
-# Para graficar ec_eval y econ_sit
+# Graph Pesimismo económico y político (graph en conjunto)
+
+# Subgráfico 1: ec_eval y econ_sit
 # Manejo de datos
 sit_econ_pais_df <-
   ec_eval_tab %>%
@@ -78,10 +86,10 @@ sit_econ_pers_df <-
   mutate(legend = 'Situación económica personal')
 
 # Juntar ec_eval y econ_sit
-sit_econ_pais_df <-
+sit_econ_df <-
   bind_rows(sit_econ_pais_df,
             sit_econ_pers_df)
-  rownames(sit_econ_pais_df)<-NULL
+  rownames(sit_econ_df)<-NULL
 
 # Graph pesimismo económico
 graph_sit_econ_df <-
@@ -118,7 +126,7 @@ graph_sit_econ_df <-
          height = 6, 
          dpi = 1200)
 
-# Para graficar pres_aprov_dic
+# Subgráfico 2: pres_aprov_dic
 graph_pres_aprov_dic<-
   ggplot(pres_aprov_dic_tab,
            aes(x = as.character(year), y = pres_aprov_dicNo, group = 1))+
@@ -173,4 +181,65 @@ ggsave("figures/grafico_conjunto.png",plot = graph_conjunto,
        width = 12.5, 
        height = 7, 
        dpi = 1200)  
+
+# Graph Pesimismo y desempleo
+# Manejo de datos
+unem_total_tab_df <-
+  unem_total_tab %>%
+  select(year, 
+         unem_total, 
+         se) %>% 
+  rename(perc = unem_total, 
+         se = se) %>% 
+  mutate(legend = 'Desempleo') %>% 
+  filter(year != 2004, 
+         year != 2006)
+
+sit_econ_unem_df <-
+  bind_rows(sit_econ_pais_df,
+            unem_total_tab_df)
+rownames(sit_econ_unem_df)<-NULL
+
+# Graph ec_eval vs unem_total
+caption_graph_sit_econ_unem_df <-
+  'El % que se ve pesimista ante la situación económica del país se calcula para quienes consideran que el escenario actual es peor que hace 12 meses. El % de desempleo se calcula agrupando a las personas que no tienen trabajo, tanto quienes activamente buscan empleo como quienes no lo hacen. Las líneas punteadas en gris representan los límites inferiores y superiores del intervalo de confianza al 95%. 
+  Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org.'
+
+graph_sit_econ_unem_df <-
+  ggplot(sit_econ_unem_df,
+         aes(x = as.character(year), y = perc, color = legend, group = legend))+
+  geom_line(size = 1)+
+  scale_color_manual(values = c('#a7ba42','#9DC183'),
+                     breaks = c('Situación económica del país','Desempleo'))+
+  geom_point(size = 2.15)+
+  geom_line(aes(x = as.character(year), 
+                y = perc - 1.96*se),
+            size = 0.7,
+            color = 'grey50', 
+            linetype = 'dotted')+
+  geom_line(aes(x = as.character(year), 
+                y = perc + 1.96*se),
+            size = 0.7,
+            color = 'grey50', 
+            linetype = 'dotted')+
+  labs(x = '',
+       y = '',
+       title = 'Pesimismo Económico vs. Desempleo',
+       subtitle = 'Porcentaje de pesimismo ante la economía del país vs. Porcentaje de desempleo',
+       caption = str_wrap(caption_graph_sit_econ_unem_df, 175)) +
+  theme_article +
+  theme(plot.title = element_text(face = 'bold'),
+        plot.caption = element_text(size = 8),
+        legend.title = element_blank(),
+        legend.position = c(0.17,0.3)) +
+  scale_y_continuous(limits = c(0, 0.7),
+                     breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+                     labels = c(0, '10', '20', '30', '40', '50', '60', '70'))
+
+ggsave("figures/grafico_pesimismo_vs_desempleo.png",plot = graph_sit_econ_unem_df, 
+       device = "png", 
+       width = 10, 
+       height = 6, 
+       dpi = 1200)
+
   
