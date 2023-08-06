@@ -27,11 +27,11 @@ dm <- svydesign(ids = ~ upm,
 
 # Tabulación con pesos de muestra
 ec_eval_tab <- svyby(formula = ~ ec_eval, 
-                   by = ~ year, 
-                   design = dm,
-                   FUN = svymean,
-                   na.rm = T,
-                   keep.names = F)
+                     by = ~ year, 
+                     design = dm,
+                     FUN = svymean,
+                     na.rm = T,
+                     keep.names = F)
 
 econ_sit_tab <- svyby(formula = ~ econ_sit, 
                       by = ~ year, 
@@ -48,11 +48,39 @@ pres_aprov_dic_tab <- svyby(formula = ~ pres_aprov_dic,
                             keep.names = F)
 
 unem_total_tab <- svyby(formula = ~ unem_total, 
-                            by = ~ year, 
-                            design = dm,
-                            FUN = svymean,
-                            na.rm = T,
-                            keep.names = F)
+                        by = ~ year, 
+                        design = dm,
+                        FUN = svymean,
+                        na.rm = T,
+                        keep.names = F)
+
+pres_conf_dic_tab <- svyby(formula = ~ pres_conf_dic, 
+                           by = ~ year, 
+                           design = dm,
+                           FUN = svymean,
+                           na.rm = T,
+                           keep.names = F)
+
+# Para jc13, se necesita convertirla en una variable dicotómica.
+df$jc13<-ifelse(df$jc13 == 1, 'Yes', 'No') %>% as.factor()
+
+jc13_tab <- svyby(formula = ~ jc13, 
+                  by = ~ year, 
+                  design = dm,
+                  FUN = svymean,
+                  na.rm = T,
+                  keep.names = F)
+
+# Para b2, se necesita convertirla en una variable dicotómica.
+df$b2<-ifelse(df$b2 >= 5, 'Yes', 'No') %>% as.factor()
+
+b2_tab <- svyby(formula = ~ b2, 
+                by = ~ year, 
+                design = dm,
+                FUN = svymean,
+                na.rm = T,
+                keep.names = F)
+
 
 # Tema para gráficos de ggplot2
 theme_article <-
