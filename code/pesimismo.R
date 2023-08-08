@@ -62,7 +62,6 @@ pres_conf_dic_tab <- svyby(formula = ~ pres_conf_dic,
                            keep.names = F)
 
 # Para jc13, se necesita convertirla en una variable dicotómica.
-
 dm$variables <-
   dm$variables %>% 
   mutate(jc13 =
@@ -78,7 +77,12 @@ jc13_tab <- svyby(formula = ~ jc13,
                   keep.names = F)
 
 # Para b2, se necesita convertirla en una variable dicotómica.
-df$b2<-ifelse(df$b2 >= 5, 'Yes', 'No') %>% as.factor()
+dm$variables <-
+  dm$variables %>% 
+  mutate(b2 =
+  case_when(b2 < 5 ~ 1,
+            b2 >= 5 ~ 0,
+            TRUE ~ NA))
 
 b2_tab <- svyby(formula = ~ b2, 
                 by = ~ year, 
@@ -208,7 +212,7 @@ graph_conjunto <-
   plot_annotation(title = 'Pesimismo económico y político de los ecuatorianos',
                   caption = str_wrap(caption_graph_conjunto, 210),
                   theme = theme(plot.caption = element_text(color = "grey30", hjust = 0, face = 'italic'),
-                                plot.title = element_text(hjust = 0.5, face = 'bold', size = 16)))
+                                plot.title = element_text(hjust = 0.5, face = 'bold', size = 17)))
 
 ggsave("figures/grafico_conjunto.png",plot = graph_conjunto, 
        device = "png", 
@@ -275,5 +279,32 @@ ggsave("figures/grafico_pesimismo_vs_desempleo.png",plot = graph_sit_econ_unem_d
        width = 10, 
        height = 6, 
        dpi = 1200)
+
+# Graph Desconfianza y golpe de Estado
+# Manejo de datos
+b2_tab_df <-
+  b2_tab %>%
+  select(year, 
+         b2, 
+         se) %>% 
+  rename(perc = b2, 
+         se = se) %>% 
+  mutate(legend = 'Respeto por instituciones políticas') 
+
+pres_conf_dic_tab_df <-
+  pres_conf_dic_tab %>%
+  select(year, 
+         pres_conf_dicNo, 
+         se.pres_conf_dicNo) %>% 
+  rename(perc = pres_conf_dicNo, 
+         se = se.pres_conf_dicNo) %>% 
+  mutate(legend = 'Desconfianza en el Presidente') %>% 
+  filter(year != 2004, 
+         year != 2006)
+
+sit_econ_unem_df <-
+  bind_rows(sit_econ_pais_df,
+            unem_total_tab_df)
+rownames(sit_econ_unem_df)<-NULL
 
   
