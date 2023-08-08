@@ -289,7 +289,7 @@ b2_tab_df <-
          se) %>% 
   rename(perc = b2, 
          se = se) %>% 
-  mutate(legend = 'Respeto por instituciones políticas') 
+  mutate(legend = 'Falta de respeto por instituciones políticas') 
 
 pres_conf_dic_tab_df <-
   pres_conf_dic_tab %>%
@@ -302,9 +302,62 @@ pres_conf_dic_tab_df <-
   filter(year != 2004, 
          year != 2006)
 
-sit_econ_unem_df <-
-  bind_rows(sit_econ_pais_df,
-            unem_total_tab_df)
-rownames(sit_econ_unem_df)<-NULL
+jc13_tab_df <-
+  jc13_tab %>%
+  select(year, 
+         jc13, 
+         se) %>% 
+  rename(perc = jc13, 
+         se = se) %>% 
+  mutate(legend = 'Justificaría un golpe de Estado frente a mucha corrupción') 
+
+# Juntar b2, b21a y jc13
+sit_pol_df <-
+  bind_rows(b2_tab_df,
+            pres_conf_dic_tab_df,
+            jc13_tab_df)
+rownames(sit_pol_df)<-NULL
+
+# Graph desconfianza política
+caption_graph_sit_pol_df <-
+  'El % de falta de respeto por las instituciones políticas se calcula para quienes consideran que no tienen respeto por las instituciones. El % de desconfianza en el Presidente se calcula para quienes no confían en el mandatario. El % que justificaría un golpe de Estado se calcula para quienes consideran que un golpe de Estado es justificable frente a mucha corrupción. Las líneas punteadas en gris representan los límites inferiores y superiores del intervalo de confianza al 95%. 
+  Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org.'
+
+graph_sit_pol_df <-
+  ggplot(sit_pol_df,
+         aes(x = as.character(year), y = perc, color = legend, group = legend))+
+  geom_line(size = 1)+
+  scale_color_manual(values = c('#2E5994','#73A5C6','#004B57'),
+                     breaks = c('Falta de respeto por instituciones políticas', 'Desconfianza en el Presidente', 'Justificaría un golpe de Estado frente a mucha corrupción'))+
+  geom_point(size = 2.15)+
+  geom_line(aes(x = as.character(year), 
+                y = perc - 1.96*se),
+            size = 0.7,
+            color = 'grey50', 
+            linetype = 'dotted')+
+  geom_line(aes(x = as.character(year), 
+                y = perc + 1.96*se),
+            size = 0.7,
+            color = 'grey50', 
+            linetype = 'dotted')+
+  labs(x = '',
+       y = '',
+       title = 'Desconfianza Política vs. Justificación de un golpe de Estado',
+       subtitle = 'Porcentaje de desconfianza ante la situación política del país vs.\nPorcentaje que justificaría un golpe de Estado frente a mucha corrupción',
+       caption = str_wrap(caption_graph_sit_econ_unem_df, 175)) +
+  theme_article +
+  theme(plot.title = element_text(face = 'bold'),
+        plot.caption = element_text(size = 8),
+        legend.title = element_blank(),
+        legend.position = c(0.2, 0.3)) +
+  scale_y_continuous(limits = c(0.1, 0.8),
+                     breaks = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+                     labels = c('10', '20', '30', '40', '50', '60', '70', '80'))
+
+ggsave("figures/grafico_desconfianza_politica.png",plot = graph_sit_pol_df, 
+       device = "png", 
+       width = 10, 
+       height = 6, 
+       dpi = 1200)
 
   
