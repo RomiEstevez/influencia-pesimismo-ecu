@@ -62,8 +62,13 @@ pres_conf_dic_tab <- svyby(formula = ~ pres_conf_dic,
                            keep.names = F)
 
 # Para jc13, se necesita convertirla en una variable dicotómica.
-df$jc13<-case_when(df$jc13 == 1 ~ 1,
-                   df$jc13 == 2 ~ 0) %>% as.factor()
+
+dm$variables <-
+  dm$variables %>% 
+  mutate(jc13 =
+  case_when(jc13 == 1 ~ 1,
+            jc13 == 2 ~ 0,
+            TRUE ~ NA))
 
 jc13_tab <- svyby(formula = ~ jc13, 
                   by = ~ year, 
