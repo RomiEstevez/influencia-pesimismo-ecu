@@ -189,7 +189,7 @@ graph_pres_aprov_dic<-
   annotate('label', x = 8.05, y = 0.5, label = 'Gob. de\nMoreno')+
   labs(x = '',
        y = '',
-       title = 'Pocentaje que desaprueba el trabajo del Presidente de turno') +
+       title = 'Porcentaje que desaprueba el trabajo del Presidente de turno') +
   theme_article +
   theme(plot.title = element_text(size = 14)) +
   scale_y_continuous(limits = c(0.1, 1),
@@ -204,7 +204,8 @@ ggsave("figures/grafico_desaprobacion_presidente.png",plot = graph_pres_aprov_di
 
 # Graph en conjunto
 caption_graph_conjunto <-
-  'Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org. El % que se ve pesimista ante la situación económica del país se calcula para quienes consideran que el escenario actual es peor que hace 12 meses. El % que se ve pesimista ante su situación económica se calcula para quienes consideran que su economía actual es peor que hace 12 meses. El % que se ve pesimista ante el trabajo del Ejecutivo se calcula para quienes consideran que el trabajo del Presidente de turno es regular, malo o pésimo. Las líneas punteadas en gris representan los límites inferiores y superiores del intervalo de confianza al 95%.'
+  'El % que se ve pesimista ante la situación económica del país se calcula para quienes consideran que el escenario actual es peor que hace 12 meses. El % que se ve pesimista ante su situación económica se calcula para quienes consideran que su economía actual es peor que hace 12 meses. El % que se ve pesimista ante el trabajo del Ejecutivo se calcula para quienes consideran que el trabajo del Presidente de turno es regular, malo o pésimo. Las líneas punteadas en gris representan los límites inferiores y superiores del intervalo de confianza al 95%. 
+   Fuente: El Barómetro de las Américas por el Proyecto de Opinión Pública de América Latina (LAPOP), www.LapopSurveys.org. '
 
 graph_conjunto <-
   graph_sit_econ_df + graph_pres_aprov_dic + 
@@ -344,12 +345,12 @@ graph_sit_pol_df <-
        y = '',
        title = 'Desconfianza Política vs. Justificación de un golpe de Estado',
        subtitle = 'Porcentaje de desconfianza ante la situación política del país vs.\nPorcentaje que justificaría un golpe de Estado frente a mucha corrupción',
-       caption = str_wrap(caption_graph_sit_econ_unem_df, 175)) +
+       caption = str_wrap(caption_graph_sit_pol_df, 175)) +
   theme_article +
   theme(plot.title = element_text(face = 'bold'),
         plot.caption = element_text(size = 8),
         legend.title = element_blank(),
-        legend.position = c(0.2, 0.3)) +
+        legend.position = c(0.3, 0.3)) +
   scale_y_continuous(limits = c(0.1, 0.8),
                      breaks = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
                      labels = c('10', '20', '30', '40', '50', '60', '70', '80'))
