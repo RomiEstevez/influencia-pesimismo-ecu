@@ -135,7 +135,7 @@ graph_sit_econ_df <-
          aes(x = as.character(year), y = perc, color = legend, group = legend))+
   geom_line(size = 1)+
   scale_color_manual(values = c('#2E5994','#73A5C6'),
-                     breaks = c('Situación económica del país','Situación económica personal'))+
+                     breaks = c('Pesimismo situación económica del país','Pesimismo situación económica personal'))+
   geom_point(size = 2.15)+
   geom_line(aes(x = as.character(year), 
                 y = perc - 1.96*se),
@@ -249,7 +249,7 @@ graph_sit_econ_unem_df <-
          aes(x = as.character(year), y = perc, color = legend, group = legend))+
   geom_line(size = 1)+
   scale_color_manual(values = c('#a7ba42','#9DC183'),
-                     breaks = c('Situación económica del país','Desempleo'))+
+                     breaks = c('Pesimismo ante situación económica del país','Desempleo'))+
   geom_point(size = 2.15)+
   geom_line(aes(x = as.character(year), 
                 y = perc - 1.96*se),
@@ -275,7 +275,8 @@ graph_sit_econ_unem_df <-
                      breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
                      labels = c(0, '10', '20', '30', '40', '50', '60', '70'))
 
-ggsave("figures/grafico_pesimismo_vs_desempleo.png",plot = graph_sit_econ_unem_df, 
+ggsave("figures/grafico_pesimismo_vs_desempleo.png",
+       plot = graph_sit_econ_unem_df, 
        device = "png", 
        width = 10, 
        height = 6, 
