@@ -1,0 +1,65 @@
+---
+title: "Pesimismo y desconfianza: ¿Cómo afectan a la situación económica y política del país?"
+author: "Romina Estévez"
+date: "2023-07-31"
+output:
+  html_document: default
+bibliography: refs.bib
+csl: style.csl
+---
+
+```{r setup, include=FALSE}
+# Opciones de chunks
+knitr::opts_chunk$set(echo = F)
+```
+
+Es innegable que la mayoría de ecuatorianos tienen una perspectiva desesperanzadora y derrotista sobre el Gobierno y la situación del país; sin embargo, los niveles de pesimismo han llegado a niveles preocupantes, incluso para estándares históricos. 
+
+Para 2023, cerca del 90% de ecuatorianos considera que la situación del país es mala [@click_research_click_2023], mientras que en 1999, período durante el cual el país atravesaba una de sus peores crisis económicas y sociales, el 93% de la población se veía pesimista ante el escenario del país [@ramirez_estampida_2005]. Es inquietante que casi la totalidad de la ciudadanía tenga una posición negativa sobre el país, no obstante, lo que realmente alarma es que esta perspectiva podría tener efectos adversos tanto para la población como para el Gobierno en un futuro. Tomando esto en cuenta, surge la pregunta, ¿cómo se relacionan el pesimismo y desconfianza de los ecuatorianos en la situación económica y política del país?
+
+# Evolución del pesimismo económico y político.
+
+```{r}
+knitr::include_graphics('figures/grafico_conjunto.png')
+```
+El derrotismo sobre el Estado está tan normalizado que podría parecer que esta actitud siempre ha sido parte del panorama ecuatoriano, pero no es así. Para demostrar que el pesimismo económico y político ha aumentado en los últimos años se puede utilizar los resultados de la encuesta del Barómetro de las Américas (AB) del Latin American Public Opinion Project (LAPOP). Estos sondeos de opinión pública permiten inferir el porcentaje anual de ecuatorianos pesimistas en los ejes mencionados. En el panel izquierdo del gráfico arriba se puede observar que el porcentaje que opina que la situación económica del país es peor que hace doce meses está relacionado con el porcentaje que cree que su situación económica personal actual es peor.  Asimismo, la proporción de ecuatorianos que desaprueba el trabajo del Presidente de turno presenta una correlación positiva con el pesimismo económico de la población. Los picos y caídas de estas variables responden a eventos relevantes en la historia reciente del país. 
+Durante los diez años del gobierno de Rafael Correa se puede visualizar que en la mayoría del periodo los ecuatorianos se sentían optimistas sobre el escenario del país, particularmente en 2014, año en el cual no más del 20% de ciudadanos desconfíaban  la situación económica y un 30% desaprobaba la gestión del mandatario. Esto podría justificarse con el significativo aumento del precio del barril de petróleo en aquel periodo, lo cual se reflejó en el crecimiento económico del Estado y, por ende, implicó una mejor situación económica y política para el país [@baquero_mendez_booms_2015]. 
+
+La fluctuación de dichos precios también podría explicar por qué en 2016 el gobierno de Correa pierde la confianza de los ciudadanos, pues la desaprobación de su gestión aumentó en alrededor de 15 puntos en dicho año, en el cual el precio del barril de crudo cayó a $30.32 en el mes de febrero [@datos_macro_precio_2023]. Debido a la dependencia ecuatoriana del petróleo, el PIB del país presentó un valor negativo de -1.2% en 2016 [@banco_mundial_crecimiento_2022]. Este hecho, junto con el terremoto de Manabí del mismo año y denuncias de corrupción, produjo que el gobierno perdiera credibilidad y que el país empiece un periodo de inestabilidad económica, el cual no ha terminado aún. Pero, ¿cuáles son las consecuencias del aumento del pesimismo de los ecuatorianos?
+
+# El pesimismo y la economía
+
+Las expectativas sobre el futuro de la economía son fundamentales, puesto que los agentes económicos toman decisiones según dichas previsiones. Una perspectiva pesimista puede llevar a los hogares a ahorrar más, esto debido a que los hogares menos optimistas reducen su demanda actual para suavizar el consumo a lo largo del tiempo (Bhandari, 2021), a causa de un futuro incierto. Por otro lado, el pesimismo de las empresas reduce el valor de contratar trabajadores, por lo que disminuyen los puestos vacantes (Bhandari, 2021). Si bien no se puede afirmar una causalidad entre estas dos variables, sí se puede evidenciar que existe una correlación entre el pesimismo económico y el aumento del desempleo. Esto genera un mercado laboral donde existen muchos desempleados y pocas vacantes. 
+
+Como se puede observar en el gráfico inferior, esta relación se presenta en el caso del Ecuador. En 2016, año complicado tanto en lo económico como en lo político, se evidenciaron aumentos estadisticamente significativos en los porcentajes de pesimismo y desempleo, como se ve a continuación. 
+
+```{r}
+knitr::include_graphics('figures/grafico_pesimismo_vs_desempleo.png')
+```
+
+Una situación similar ocurre con la informalidad y el empleo no adecuado, este último refiriéndose a aquellos trabajadores que no aportan al sistema de seguridad social o que no satisfacen las condiciones mínimas de horas o ingresos [@enemdu_indicadores_2015]. Los empleadores no despiden a los trabajadores actuales en caso de recesión, puesto que los costos de despido en el Ecuador son muy altos. Sin embargo, se desincentiva la contratación con estos altos costos, disminuyendo así el empleo adecuado cuando las pocas plazas de trabajo existentes se destruyen. De hecho, según la Encuesta Nacional de Empleo, Desempleo y Subempleo (ENEMDU), de diciembre de 2021 a enero de 2022 se redujeron 106.651 plazas de empleo adecuado, coincidiendo con un período de significativa desaprobación del Presidente Guillermo Lasso, quien en sus primeros seis meses de mandato ya contaba con el 60% de desaprobación [@celag_ecuador_2021]. 
+
+# Desconfianza y política
+
+La desconfianza en el Presidente es una medida pertinente para analizar la falta de confianza que tienen los ciudadanos en la política ecuatoriana, específicamente en la rama ejecutiva. En el mandato de Rafael Correa los niveles de desconfianza disminuyeron hasta el año 2014, a partir del cual empezó a crecer rápidamente. Varios ciudadanos justificaron la falta de credibilidad en el expresidente debido a la “mala” gestión de la situación económica tras la caída de los precios del crudo y el inminente déficit de la balanza comercial [@quillupangui_58_2016] y probablemente también las acusaciones de corrupción [@alvaro_petroecuador_2016]. La falta de confianza en el Presidente de turno incrementó aún más en el siguiente gobierno, el de Lenín Moreno. Pese a que su periodo inició con un nivel de desconfianza del 28%, tras las protestas de octubre de 2019 por las medidas económicas tomadas por Moreno, este porcentaje se aproximó a un 70%. Junto con la pandemia, el incumplimiento de varias reformas e inestabilidad política, menos del 10% de ecuatorianos confiaba en el entonces Presidente, el nivel más bajo de la historia del Ecuador [@noauthor_cedatos_2021]. Esta situación mejoraría temporalmente en el gobierno de Guillermo Lasso, sin embargo, la declaración de muerte cruzada junto con la masiva ola de inseguridad produjo que sus niveles de desconfianza y desaprobación sean aproximadamente del 85% [@medina_presidente_2023].
+
+De la mano de la desconfianza en el mandatario está el porcentaje de ecuatorianos sin respeto por las instituciones políticas. Como se puede observar en el gráfico abajo, la falta de respeto por dichas instituciones y la desconfianza en el Presidente siguen tendencias similares, cuyos picos y caídas han sido influenciados por los mismos eventos. Este factor es relevante para el análisis, puesto que el desempeño del gobierno se relaciona positivamente con la confianza en entidades públicas [@perry_trust_2021]. Esto lleva al siguiente punto, los efectos adversos políticos de la desconfianza en el Estado.
+
+```{r}
+knitr::include_graphics('figures/grafico_desconfianza_politica.png')
+```
+
+La falta de respeto y desconfianza en el Ejecutivo junto con sus instituciones políticas generan tensiones y antagonismo entre la población y el Gobierno. Esto produce descontento social y con ello el ambiente propicio para que un sector de la población crea que es el indicado para hacer el trabajo del Gobierno, generalmente llegando al poder de manera ilegal. Esto se debe a que la desconfianza política puede generar que la ciudadanía apoye a la acción colectiva violenta y opiniones políticas extremas, produciéndose así conflictos tempestuosos y protestas, las cuales pueden concluir en un golpe de Estado [@gulliver_political_2022].
+
+Los golpes de Estado no son ajenos al contexto ecuatoriano. De hecho, el mayor pico que se puede observar en el gráfico superior sobre si los ecuatorianos justificarían un golpe de Estado frente a mucha corrupción corresponde al año 2004, es decir, al gobierno de Lucio Gutiérrez. El descontento público, la desaprobación de la ciudadanía y los supuestos casos de corrupción probablemente influyeron en la Rebelión de los forajidos, la cual se dio el año siguiente. Esta variable guarda correlación con la desconfianza política en la mayoría de periodos; una vez más se puede visualizar que el año 2014 fue aquel donde menos personas justificaban un golpe junto con el menor porcentaje de desconfianza en el Presidente e instituciones políticas. El pico de 2012 con una proporción del 48% podría argumentarse con el hecho de que, pese a que la desconfianza en el mandatario se encontraba en niveles relativamente bajos, hubo varias denuncias de corrupción. De hecho, más del 25% de conflictos políticos en el Ecuador en aquel año tuvieron el objetivo de denunciar casos de corrupción [@ecuador_debate_conflictividad_2012].
+
+Un nuevo incremento de esta variable se refleja en 2019, año en el cual se dan las protestas de octubre y donde la desconfianza política aumentó en gran medida. Además, pese a que salieron a la luz varios casos de corrupción, como los sobornos pagados por la constructora Odebrecht y cohechos de exfuncionarios públicos, el ritmo de avance de los procesos judiciales se fue ralentizando, creando aún más descontento en la población (España, 2019). Si bien las protestas de octubre no fueron causadas por estos hechos, sí siguen una tendencia de desaprobación y desconfianza en el Estado. 
+
+# Conclusión
+
+El pesimismo y la desconfianza de la ciudadanía en el Gobierno son factores que siempre estarán presentes sin importar el presidente de turno. Sin embargo, cuando estas variables presentan niveles demasiado altos pueden originar consecuencias negativas en la situación económica y política del país. Como es de esperarse, el pesimismo de los ecuatorianos sobre la economía de la nación se ve dependiente de las fluctuaciones del precio del barril de crudo, sin ser ésta necesariamente una relación causal. Asimismo, el pesimismo económico guarda una estrecha relación con los niveles de desempleo. Si bien el derrotismo de los ecuatorianos no ocasionó directamente la reducción del empleo adecuado y formal, se puede observar que las expectativas y perspectivas sobre la economía de Ecuador pueden afectar el comportamiento de los hogares y empresas del país. 
+
+De manera similar, la desconfianza en el Presidente y en las instituciones políticas genera descontento social, el cual puede influir en el incremento al apoyo colectivo hacia protestas y conflictos violentos que, posiblemente, podrían culminar en un golpe de Estado. Aunque esta relación no necesariamente es causal, se puede identificar claramente que existe correlación entre el pesimismo político y la justificación de un golpe. Los niveles de incertidumbre y desconfianza de la ciudadanía en el Gobierno son bastante altos, por lo que el futuro del país podría verse afectado. El trabajo del próximo mandatario ciertamente se relaciona con los niveles de desempleo y peligro ante un golpe, por lo que deberá mantener la aceptación de la ciudadanía a lo largo de todo su gobierno.
+
+
+# Referencias
