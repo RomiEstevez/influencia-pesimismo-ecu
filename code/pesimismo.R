@@ -112,7 +112,7 @@ sit_econ_pais_df <-
          se.ec_evalWorse) %>% 
   rename(perc = ec_evalWorse, 
          se = se.ec_evalWorse) %>% 
-  mutate(legend = 'Situación económica del país')
+  mutate(legend = 'Pesimismo situación económica del país')
 
 sit_econ_pers_df <-
   econ_sit_tab %>%
@@ -121,7 +121,7 @@ sit_econ_pers_df <-
          se.econ_sitWorse) %>% 
   rename(perc = econ_sitWorse, 
          se = se.econ_sitWorse) %>% 
-  mutate(legend = 'Situación económica personal')
+  mutate(legend = 'Pesimismo situación económica personal')
 
 # Juntar ec_eval y econ_sit
 sit_econ_df <-
@@ -249,7 +249,7 @@ graph_sit_econ_unem_df <-
          aes(x = as.character(year), y = perc, color = legend, group = legend))+
   geom_line(size = 1)+
   scale_color_manual(values = c('#a7ba42','#9DC183'),
-                     breaks = c('Pesimismo ante situación económica del país','Desempleo'))+
+                     breaks = c('Pesimismo situación económica del país','Desempleo'))+
   geom_point(size = 2.15)+
   geom_line(aes(x = as.character(year), 
                 y = perc - 1.96*se),
@@ -270,7 +270,7 @@ graph_sit_econ_unem_df <-
   theme(plot.title = element_text(face = 'bold'),
         plot.caption = element_text(size = 8),
         legend.title = element_blank(),
-        legend.position = c(0.17,0.3)) +
+        legend.position = c(0.2,0.3)) +
   scale_y_continuous(limits = c(0, 0.7),
                      breaks = c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
                      labels = c(0, '10', '20', '30', '40', '50', '60', '70'))
